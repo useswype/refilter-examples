@@ -1,6 +1,7 @@
 import {
   startOfDay,
   endOfDay,
+  format,
 } from 'date-fns';
 
 import { ShortcutContainer } from './ShortcutContainer';
@@ -52,7 +53,8 @@ export function DateRangeFilter(
               to,
             });
           }}
-          value={value?.from?.toString() ?? undefined}
+
+          value={ value?.from !== undefined ? format(value?.from, 'yyyy-MM-dd') : undefined}
           className="w-full"
         />
         <input
@@ -68,7 +70,7 @@ export function DateRangeFilter(
               to: endOfDay(to),
             });
           }}
-          value={value?.to?.toString() ?? undefined}
+          value={ value?.to !== undefined ? format(value?.to, 'yyyy-MM-dd') : undefined}
           className="w-full"
         />
       </div>
