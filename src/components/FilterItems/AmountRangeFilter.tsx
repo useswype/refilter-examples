@@ -14,7 +14,7 @@ export type AmountFilterValue = {
 export function AmountFilter(props: FilterComponentProps<AmountFilterValue>) {
   const { onChange, value } = props;
   const rangeMin = 0;
-  const rangeMax = 100000;
+  const rangeMax = 1000;
 
   const min = value?.min ?? rangeMin;
   const max = value?.max ?? rangeMax;
@@ -126,16 +126,12 @@ export function AmountFilterShortcut(
   }
 
   return (
-    <>
-      {value.min && value.max && (
-        <ShortcutContainer
-          label={`EGP ${value.min ?? 0} - EGP ${value.max ?? 0}`}
-          onClick={() => {
-            onChange(null);
-          }}
-        />
-      )}
-    </>
+	<ShortcutContainer
+	  label={`EGP ${value.min} - EGP ${value.max}`}
+	  onClick={() => {
+		onChange(null);
+	  }}
+	/>
   );
 }
 
