@@ -35,6 +35,7 @@ export function Filter() {
   const defaultFilterValue = {
       date: filterItems.date.defaultValue,
       text: filterItems.text.defaultValue,
+      amount: filterItems.amount.defaultValue,
     }
   const [filterValue, setFilterValue] = useState(defaultFilterValue);
 
