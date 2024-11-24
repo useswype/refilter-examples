@@ -6,51 +6,43 @@ import { FilterComponentProps, ShortcutComponentProps } from '@swypex/refilter';
 
 const SLIDER_STEPS = 10;
 
-
 export type AmountFilterValue = {
   min: number;
   max: number;
 } | null;
 
-export function AmountFilter(
-  props: FilterComponentProps<AmountFilterValue>
-) {
+export function AmountFilter(props: FilterComponentProps<AmountFilterValue>) {
   const { onChange, value } = props;
-	const rangeMin = 0
-	const rangeMax = 100000
+  const rangeMin = 0;
+  const rangeMax = 100000;
 
-  const min = value?.min ?? null;
-  const max = value?.max ?? null;
+  const min = value?.min ?? rangeMin;
+  const max = value?.max ?? rangeMax;
 
-  const handleCurrencyInput = (
-    newValue: string,
-    type: 'min' | 'max'
-  ): void => {
+  const handleCurrencyInput = (newValue: string, type: 'min' | 'max'): void => {
     const numValue =
       newValue === '' ? null : Number(newValue.replace(/,/g, ''));
 
-      void onChange({
-        ...value,
-        min: min ?? 0,
-        max: max ?? 0,
-        [type]: numValue,
-      });
+    void onChange({
+      ...value,
+      min,
+      max,
+      [type]: numValue,
+    });
   };
 
   return (
     <div className="h-full flex-col p-4">
       <div className="flex justify-between pt-2">
-        <p className="text-sm font-semibold text-gray-800">
-					Amount Range
-        </p>
-          <button
-            className={'mt-1 text-xs font-semibold text-blue-400'}
-            onClick={() => {
-              void onChange(null);
-            }}
-          >
-            Reset
-          </button>
+        <p className="text-sm font-semibold text-gray-800">Amount Range</p>
+        <button
+          className={'mt-1 text-xs font-semibold text-blue-400'}
+          onClick={() => {
+            void onChange(null);
+          }}
+        >
+          Reset
+        </button>
       </div>
 
       <div className="py-4">
@@ -58,9 +50,9 @@ export function AmountFilter(
           range
           step={SLIDER_STEPS}
           allowCross={false}
-          value={[min ?? rangeMin ?? 0, max ?? rangeMax ?? 0]}
-          min={rangeMin ?? 0}
-          max={rangeMax ?? 0}
+          value={[min, max]}
+          min={rangeMin}
+          max={rangeMax}
           styles={{
             handle: {
               background: 'white',
@@ -92,28 +84,28 @@ export function AmountFilter(
         <div dir="ltr" className="flex items-center justify-between">
           <span className="flex flex-col gap-1 text-xs font-semibold text-gray-600">
             <div className="h-3 w-px bg-gray-300" />
-						{rangeMin}
+            {rangeMin}
           </span>
           <span className="flex flex-col items-end justify-center gap-1 text-xs font-semibold text-gray-600">
             <div className="h-3 w-px bg-gray-300" />
-						{rangeMax}
+            {rangeMax}
           </span>
         </div>
       </div>
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
-				<label>Min</label>
+        <label>Min</label>
         <input
-					type="number"
-          value={min ?? 0}
+          type="number"
+          value={min}
           onInput={(e) => {
             handleCurrencyInput(e.currentTarget.value, 'min');
           }}
         />
         <div className="mt-6 hidden h-2 w-px rotate-90 bg-gray-500 sm:block" />
-				<label>Max</label>
+        <label>Max</label>
         <input
-					type="number"
-          value={max ?? 0}
+          type="number"
+          value={max}
           onInput={(e) => {
             handleCurrencyInput(e.currentTarget.value, 'max');
           }}
@@ -150,18 +142,15 @@ export function AmountFilterShortcut(
 AmountFilter.Shortcut = AmountFilterShortcut;
 
 AmountFilter.comparator = (a: AmountFilterValue, b: AmountFilterValue) => {
-
   return a?.min === b?.min && a?.max === b?.max;
-}
+};
 
 AmountFilter.getBadgeCount = (value: AmountFilterValue) => {
   if (value === null) {
     return 0;
   }
 
-  if (
-    (value.min && value.max)
-  ) {
+  if (value.min && value.max) {
     return 1;
   }
 

@@ -4,7 +4,9 @@ import { ShortcutContainer } from './ShortcutContainer';
 
 import { FilterComponentProps, ShortcutComponentProps } from '@swypex/refilter';
 
-export type CheckboxItems = Array<{ id: string; name: string }>;
+import data from '../../fakeData.json';
+
+export type CheckboxItems = string[];
 
 export interface ExtraCheckboxFilterProps {
   useSearchQuery: (query: string) => {
@@ -43,27 +45,20 @@ export function filterItemsByQuery<T>(
       });
 }
 
-const defaultItems = [
-	{ id: '1', name: 'Apple' },
-	{ id: '2', name: 'Banana' },
-	{ id: '3', name: 'Cherry' },
-	{ id: '4', name: 'Date' },
-
-]
-
-export function CheckboxFilter(
-  props: FilterComponentProps<CheckboxItems>
-) {
-  const { value , onChange } = props;
+export function CheckboxFilter(props: FilterComponentProps<CheckboxItems>) {
+  const { value, onChange } = props;
   const [query, setQuery] = useState('');
 
-  const items = filterItemsByQuery(query, defaultItems, (item) => item.name);
-	console.log('items:', items)
+  const categories = [...new Set(data.map((item) => item.category))];
 
-  const handleChange = (item: { id: string; name: string }): void => {
-    const itemExists = value.findIndex(({ id }) => item.id === id) >= 0;
+  const items = filterItemsByQuery(query, categories, (item) => item);
+  console.log('items:', items);
+
+  const handleChange = (item: string): void => {
+    console.log('item:', item);
+    const itemExists = value.indexOf(item) !== -1;
     if (itemExists) {
-      void onChange(value.filter(({ id }) => item.id !== id));
+      void onChange(value.filter((it) => it !== item));
     } else {
       void onChange([...value, item]);
     }
@@ -103,19 +98,17 @@ export function CheckboxFilter(
       <div className="flex-1 overflow-auto">
         <div className="mx-3 font-normal text-gray-900">
           {items?.map((item) => (
-						<div key={item.id}>
-						<label className="flex items-center gap-2">
-						{item.name}
-						</label>
-            <input
-              id={item.id}
-              type="checkbox"
-              onChange={() => {
-                handleChange(item);
-              }}
-              checked={value.findIndex(({ id }) => item.id === id) >= 0}
-            />
-			</div>
+            <div key={item}>
+              <label className="flex items-center gap-2">{item}</label>
+              <input
+                id={item}
+                type="checkbox"
+                onChange={() => {
+                  handleChange(item);
+                }}
+                checked={value.indexOf(item) !== -1}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -123,16 +116,14 @@ export function CheckboxFilter(
   );
 }
 
-function CheckboxFilterShortcut(
-  props: ShortcutComponentProps<CheckboxItems>
-) {
+function CheckboxFilterShortcut(props: ShortcutComponentProps<CheckboxItems>) {
   const { value = [], onChange } = props;
   if (value.length === 0) return null;
 
-  const handleChange = (item: { id: string; name: string }): void => {
-    const itemExists = value.findIndex(({ id }) => item.id === id) >= 0;
+  const handleChange = (item: string): void => {
+    const itemExists = value.indexOf(item) !== -1;
     if (itemExists) {
-      onChange(value.filter(({ id }) => item.id !== id));
+      onChange(value.filter((it) => item !== it));
     } else {
       onChange([...value, item]);
     }
@@ -142,11 +133,11 @@ function CheckboxFilterShortcut(
     <>
       {value.map((item) => (
         <ShortcutContainer
-          label={item.name}
+          label={item}
           onClick={() => {
             handleChange(item);
           }}
-          key={item.id}
+          key={item}
         />
       ))}
     </>
@@ -155,23 +146,10 @@ function CheckboxFilterShortcut(
 
 CheckboxFilter.Shortcut = CheckboxFilterShortcut;
 
-CheckboxFilter.comparator = (
-  a: Array<{
-    id: string;
-    name: string;
-  }>,
-  b: Array<{
-    id: string;
-    name: string;
-  }>
-) => {
-  return haveSameValues(
-    a?.map((i) => i.id),
-    b?.map((i) => i.id)
-  );
+CheckboxFilter.comparator = (a: string[], b: string[]) => {
+  return haveSameValues(a, b);
 };
 
 CheckboxFilter.getBadgeCount = (value: CheckboxItems) => {
   return value.length;
 };
-

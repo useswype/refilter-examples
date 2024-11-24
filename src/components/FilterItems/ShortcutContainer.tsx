@@ -3,9 +3,7 @@ interface ShortcutContainerProps {
   onClick: () => void;
 }
 
-export function ShortcutContainer(
-  props: ShortcutContainerProps
-) {
+export function ShortcutContainer(props: ShortcutContainerProps) {
   const { onClick, label } = props;
 
   return (
@@ -18,7 +16,7 @@ export function ShortcutContainer(
         <div
           className={`rounded-full bg-blue-400 p-1 group-hover:bg-danger-800`}
         >
-					X
+          X
         </div>
       </button>
     </div>

@@ -1,8 +1,4 @@
-import {
-  startOfDay,
-  endOfDay,
-  format,
-} from 'date-fns';
+import { startOfDay, endOfDay, format } from 'date-fns';
 
 import { ShortcutContainer } from './ShortcutContainer';
 import { FilterComponentProps, ShortcutComponentProps } from '@swypex/refilter';
@@ -30,14 +26,14 @@ export function DateRangeFilter(
             void onChange(null);
           }}
         >
-					Reset
+          Reset
         </button>
       </div>
       <div className="flex flex-col gap-4 px-2 py-3">
         <input
-		  type="date"
+          type="date"
           onChange={async (e) => {
-			const from = new Date(e.target.value);
+            const from = new Date(e.target.value);
             if (!from) {
               return;
             }
@@ -53,14 +49,17 @@ export function DateRangeFilter(
               to,
             });
           }}
-
-          value={ value?.from !== undefined ? format(value?.from, 'yyyy-MM-dd') : undefined}
+          value={
+            value?.from !== undefined
+              ? format(value?.from, 'yyyy-MM-dd')
+              : undefined
+          }
           className="w-full"
         />
         <input
-		  type="date"
+          type="date"
           onChange={async (e) => {
-			const to = new Date(e.target.value);
+            const to = new Date(e.target.value);
             if (!to) {
               return;
             }
@@ -70,7 +69,11 @@ export function DateRangeFilter(
               to: endOfDay(to),
             });
           }}
-          value={ value?.to !== undefined ? format(value?.to, 'yyyy-MM-dd') : undefined}
+          value={
+            value?.to !== undefined
+              ? format(value?.to, 'yyyy-MM-dd')
+              : undefined
+          }
           className="w-full"
         />
       </div>
