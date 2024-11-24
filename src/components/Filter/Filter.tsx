@@ -1,18 +1,13 @@
 import { createStyledGenericFilter, GenericFilterProps } from "@swypex/refilter";
 import { DateRangeFilter, DateRangeFilterValue } from "../FilterItems/DateRangeFilter";
 import { useState } from "react";
+import { CheckboxFilter, CheckboxItems } from "../FilterItems/CheckboxFilter";
+import { AmountFilter, AmountFilterValue } from "../FilterItems/AmountRangeFilter";
 
 export interface FilterValues {
   date: DateRangeFilterValue;
-  // merchants: SearchItems;
-  // people: SearchItems;
-  // departments: SearchItems;
-  // method: CheckboxOptions[];
-  // categories: SearchItems;
-  // amount: AmountFilterValue;
-  // recordedBy: SearchItems;
-  // rejectedBy: SearchItems;
-  // tags: SearchItems;
+  text: CheckboxItems;
+  amount: AmountFilterValue;
 }
 
 const GenericFilter = createStyledGenericFilter({});
@@ -23,27 +18,23 @@ const GenericFilter = createStyledGenericFilter({});
           FilterComponent: DateRangeFilter,
           defaultValue: null,
         },
-        // merchants: {
-        //   title: 'Text',
-        //   FilterComponent: MerchantSearchFilter,
-        //   defaultValue: [],
-        // },
-        // method: {
-        //   title: 'Checkbox',
-        //   defaultValue: transactionMethods,
-        //   FilterComponent: CheckboxFilter,
-        // },
-        // amount: {
-        //   title: 'Amount',
-        //   defaultValue: null,
-        //   FilterComponent: AmountFilter,
-        // },
+        text: {
+          title: 'Text',
+          FilterComponent: CheckboxFilter,
+          defaultValue: [],
+        },
+        amount: {
+          title: 'Amount',
+          defaultValue: null,
+          FilterComponent: AmountFilter,
+        },
       }
 
 export function Filter() {
 
   const defaultFilterValue = {
       date: filterItems.date.defaultValue,
+      text: filterItems.text.defaultValue,
     }
   const [filterValue, setFilterValue] = useState(defaultFilterValue);
 
