@@ -46,7 +46,7 @@ export function DateRangeFilter(
             void onChange({
               ...value,
               from: startOfDay(from),
-              to,
+              to: to ?? new Date(),
             });
           }}
           value={
