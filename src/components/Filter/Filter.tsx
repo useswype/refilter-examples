@@ -1,5 +1,5 @@
 import { createStyledGenericFilter, GenericFilterProps } from "@swypex/refilter";
-import { DateRangeFilter, DateRangeFilterValue } from "./components/FilterItems/DateRangeFilter";
+import { DateRangeFilter, DateRangeFilterValue } from "../FilterItems/DateRangeFilter";
 import { useState } from "react";
 
 export interface FilterValues {

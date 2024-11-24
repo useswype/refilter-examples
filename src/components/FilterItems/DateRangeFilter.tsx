@@ -78,6 +78,26 @@ export function DateRangeFilter(
   );
 }
 
+export function getDateLabel(value: DateRangeFilterValue): string | undefined {
+  if (!value) {
+    return;
+  }
+
+  const { from, to } = value;
+
+  if (from && to) {
+    return `${format(from, 'd MMM, yyyy')} - ${format(to, 'd MMM, yyyy')}`;
+  }
+
+  if (from && !to) {
+    return `From: ${format(from, 'd MMM, yyyy')}`;
+  }
+
+  if (!from && to) {
+    return `To: ${format(to, 'd MMM, yyyy')}`;
+  }
+}
+
 function DateRangeFilterShortcut(
   props: ShortcutComponentProps<DateRangeFilterValue>
 ) {
@@ -89,7 +109,7 @@ function DateRangeFilterShortcut(
 
   return (
     <ShortcutContainer
-      label="Date Label"
+      label={getDateLabel(value)}
       onClick={() => {
         onChange(defaultValue);
       }}
