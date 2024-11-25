@@ -20,7 +20,7 @@ export function DateRangeFilter(
     <>
       <div className="flex justify-end">
         <button
-          className={`me-2.5 text-xs font-semibold ${value === null ? 'text-gray-600' : 'text-blue-400'}`}
+          className={`me-2.5 mt-4 text-xs font-semibold ${value === null ? 'text-gray-600' : 'text-blue-400'}`}
           disabled={value === null}
           onClick={() => {
             void onChange(null);
@@ -30,52 +30,65 @@ export function DateRangeFilter(
         </button>
       </div>
       <div className="flex flex-col gap-4 px-2 py-3">
-        <input
-          type="date"
-          onChange={async (e) => {
-            const from = new Date(e.target.value);
-            if (!from) {
-              return;
-            }
-            let to = value?.to;
+        <div className="flex flex-col gap-1">
+          <label htmlFor="from" className="text-sm text-start font-semibold">
+            Start Date
+          </label>
+          <input
+            id="from"
+            type="date"
+            onChange={async (e) => {
+              const from = new Date(e.target.value);
+              if (!from) {
+                return;
+              }
+              let to = value?.to;
 
-            if (to && from.getTime() > to.getTime()) {
-              to = undefined;
-            }
+              if (to && from.getTime() > to.getTime()) {
+                to = undefined;
+              }
 
-            void onChange({
-              ...value,
-              from: startOfDay(from),
-              to: to ?? new Date(),
-            });
-          }}
-          value={
-            value?.from !== undefined
-              ? format(value?.from, 'yyyy-MM-dd')
-              : undefined
-          }
-          className="w-full"
-        />
-        <input
-          type="date"
-          onChange={async (e) => {
-            const to = new Date(e.target.value);
-            if (!to) {
-              return;
+              void onChange({
+                ...value,
+                from: startOfDay(from),
+                to: to ?? new Date(),
+              });
+            }}
+            value={
+              value?.from !== undefined
+                ? format(value?.from, 'yyyy-MM-dd')
+                : undefined
             }
+            className="w-full border-2 rounded-lg p-2"
+          />
+        </div>
 
-            void onChange({
-              ...value,
-              to: endOfDay(to),
-            });
-          }}
-          value={
-            value?.to !== undefined
-              ? format(value?.to, 'yyyy-MM-dd')
-              : undefined
-          }
-          className="w-full"
-        />
+        <div className="flex flex-col gap-1">
+          <label htmlFor="to" className="text-sm text-start font-semibold">
+            End Date
+          </label>
+          <input
+            id="to"
+            type="date"
+            onChange={async (e) => {
+              const to = new Date(e.target.value);
+              if (!to || !value?.from) {
+                return;
+              }
+
+              void onChange({
+                ...value,
+                to: endOfDay(to),
+              });
+            }}
+            value={
+              value?.to !== undefined
+                ? format(value?.to, 'yyyy-MM-dd')
+                : undefined
+            }
+            className="w-full border-2 rounded-lg p-2"
+          />
+        </div>
       </div>
     </>
   );
@@ -90,14 +103,6 @@ export function getDateLabel(value: DateRangeFilterValue): string | undefined {
 
   if (from && to) {
     return `${format(from, 'd MMM, yyyy')} - ${format(to, 'd MMM, yyyy')}`;
-  }
-
-  if (from && !to) {
-    return `From: ${format(from, 'd MMM, yyyy')}`;
-  }
-
-  if (!from && to) {
-    return `To: ${format(to, 'd MMM, yyyy')}`;
   }
 }
 
