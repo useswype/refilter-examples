@@ -78,7 +78,7 @@ function App() {
               </tr>
             ))}
           </tbody>
-          <tfoot className="sticky bottom-0 bg-white w-full">
+          <tfoot className="sticky bottom-0 bg-gray-100 w-full">
             <td></td>
             <td></td>
             <td scope="row" className="px-6 py-3 text-base">
@@ -87,6 +87,16 @@ function App() {
             <td className="px-6 py-3">{data.length}</td>
           </tfoot>
         </table>
+      </div>
+
+      <div className="absolute bottom-10">
+        <p>
+          Built by{' '}
+          <a className="text-blue-700" href="https://swypex.com">
+            Swypex
+          </a>{' '}
+          Engineering
+        </p>
       </div>
     </>
   );
