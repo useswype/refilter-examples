@@ -52,10 +52,8 @@ export function CheckboxFilter(props: FilterComponentProps<CheckboxItems>) {
   const categories = [...new Set(data.map((item) => item.category))];
 
   const items = filterItemsByQuery(query, categories, (item) => item);
-  console.log('items:', items);
 
   const handleChange = (item: string): void => {
-    console.log('item:', item);
     const itemExists = value.indexOf(item) !== -1;
     if (itemExists) {
       void onChange(value.filter((it) => it !== item));
@@ -70,13 +68,10 @@ export function CheckboxFilter(props: FilterComponentProps<CheckboxItems>) {
     <div className="flex h-full flex-col">
       <div className="relative m-2 flex h-9 items-center justify-around ">
         <input
+          placeholder="Search"
           value={query}
           maxLength={200}
-          className="h-10 w-full rounded-lg  border-0 p-2 px-9 text-sm leading-6 outline-none ring-1
-          ring-inset ring-gray-300 placeholder:text-base
-          placeholder:text-gray-800
-          focus:text-gray-900 focus:ring-1 focus:ring-inset focus:ring-blue-200
-          focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-blue-100"
+          className="w-full border-2 rounded-lg p-2"
           onChange={(e) => {
             setQuery(e.target.value);
           }}
@@ -98,9 +93,9 @@ export function CheckboxFilter(props: FilterComponentProps<CheckboxItems>) {
       <div className="flex-1 overflow-auto">
         <div className="mx-3 font-normal text-gray-900">
           {items?.map((item) => (
-            <div key={item}>
-              <label className="flex items-center gap-2">{item}</label>
+            <div className="flex mb-2 items-center gap-3" key={item}>
               <input
+                className="w-4 h-4"
                 id={item}
                 type="checkbox"
                 onChange={() => {
@@ -108,6 +103,10 @@ export function CheckboxFilter(props: FilterComponentProps<CheckboxItems>) {
                 }}
                 checked={value.indexOf(item) !== -1}
               />
+
+              <label htmlFor={item} className="flex items-center gap-2">
+                {item}
+              </label>
             </div>
           ))}
         </div>

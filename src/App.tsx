@@ -41,12 +41,11 @@ function App() {
     <>
       <Filter
         onApply={(value) => {
-          console.log('value:', value);
           handleFilterApply(value);
           return true;
         }}
       />
-      <div className="relative overflow-auto h-[calc(100vh-10rem)]  shadow-md sm:rounded-lg">
+      <div className="relative mt-4 overflow-auto h-[calc(100vh-10rem)]  shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left">
           <thead className="text-xs uppercase sticky top-0 z-50 bg-white w-full ">
             <tr>
@@ -60,7 +59,7 @@ function App() {
                 Date
               </th>
               <th scope="col" className="px-6 py-3">
-                Price
+                Price (EGP)
               </th>
             </tr>
           </thead>

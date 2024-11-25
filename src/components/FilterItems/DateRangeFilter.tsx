@@ -29,7 +29,7 @@ export function DateRangeFilter(
           Reset
         </button>
       </div>
-      <div className="flex flex-col gap-4 px-2 py-3">
+      <div className="flex flex-col gap-4 px-2">
         <div className="flex flex-col gap-1">
           <label htmlFor="from" className="text-sm text-start font-semibold">
             Start Date
