@@ -36,7 +36,7 @@ export function AmountFilter(props: FilterComponentProps<AmountFilterValue>) {
       <div className="flex justify-between pt-2">
         <p className="text-sm font-semibold text-gray-800">Amount Range</p>
         <button
-          className={'mt-1 text-xs font-semibold text-blue-400'}
+          className={`mt-1 text-xs font-semibold ${!value?.min && !value?.max ? 'text-gray-600' : 'text-blue-400'}`}
           onClick={() => {
             void onChange(null);
           }}
@@ -92,26 +92,45 @@ export function AmountFilter(props: FilterComponentProps<AmountFilterValue>) {
           </span>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
-        <label>Min</label>
-        <input
-          type="number"
-          value={min}
-          onInput={(e) => {
-            handleCurrencyInput(e.currentTarget.value, 'min');
-          }}
-        />
-        <div className="mt-6 hidden h-2 w-px rotate-90 bg-gray-500 sm:block" />
-        <label>Max</label>
-        <input
-          type="number"
-          value={max}
-          onInput={(e) => {
-            handleCurrencyInput(e.currentTarget.value, 'max');
-          }}
-        />
+      <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
+        <div className="flex flex-col w-full">
+          <label
+            htmlFor="min"
+            className="text-sm text-start mb-1 font-semibold"
+          >
+            Min
+          </label>
+          <input
+            className="w-full border-2 rounded-lg p-2"
+            id="min"
+            type="number"
+            value={min}
+            onInput={(e) => {
+              handleCurrencyInput(e.currentTarget.value, 'min');
+            }}
+          />
+        </div>
+
+        <span className="mt-4">-</span>
+
+        <div className="flex flex-col w-full">
+          <label
+            htmlFor="max"
+            className="text-sm text-start mb-1 font-semibold"
+          >
+            Max
+          </label>
+          <input
+            className="w-full border-2 rounded-lg p-2"
+            id="max"
+            type="number"
+            value={max}
+            onInput={(e) => {
+              handleCurrencyInput(e.currentTarget.value, 'max');
+            }}
+          />
+        </div>
       </div>
-      <div className="-mx-4 my-5 h-px bg-gray-300 " />
     </div>
   );
 }
@@ -126,12 +145,12 @@ export function AmountFilterShortcut(
   }
 
   return (
-	<ShortcutContainer
-	  label={`EGP ${value.min} - EGP ${value.max}`}
-	  onClick={() => {
-		onChange(null);
-	  }}
-	/>
+    <ShortcutContainer
+      label={`EGP ${value.min} - EGP ${value.max}`}
+      onClick={() => {
+        onChange(null);
+      }}
+    />
   );
 }
 
